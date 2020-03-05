@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.TerritoryTableMapper">
+    <resultMap id="TerritoryTableMap" type="com.example.demo.entity.TerritoryTable">
+        <id column="territoryID" property="territoryID" jdbcType="INTEGER"/>
+        <result column="territoryName" property="territoryName" jdbcType="VARCHAR"/>
+        <result column="territoryIntroduction" property="territoryIntroduction" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="searchByID" parameterType="java.lang.Integer" resultMap="TerritoryTableMap">
+        select * from territorytable
+        where territoryID=#{territoryID,jdbcType=INTEGER}
+    </select>
+
+</mapper>

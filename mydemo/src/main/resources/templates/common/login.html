@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>登录</title>
+    <link href="/assets/css/icons.css" rel="stylesheet">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body class="sticky-header">
+
+
+<!--Start login Section-->
+<section class="login-section">
+    <div class="container">
+        <div class="row">
+            <div class="login-wrapper">
+                <div class="login-inner">
+
+
+
+                    <h1 class="header-title text-center">系统登录</h1>
+
+                    <form action="/login" method="post">
+                        <div class="form-group">
+                            <input type="userId" class="form-control" id="exampleInputUserId1" placeholder="请输入账号" name="userName" value="zzw">
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="请输入密码" name="password" value="zzw">
+                        </div>
+
+                        <div class="form-group">
+                            <select id="exampleInputFile" class="form-control" name="userType">
+                                <option value="1">注册用户</option>
+                                <option value="2">管理员用户</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="exampleInputPassword12" placeholder="请输入验证码" name="verifyCode" value="123">
+                            <img src="/getcode" onclick="javascript:this.src=this.src+'?time='+Math.random()">
+
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="pull-right">
+                                <a th:href="@{/registerAccount}" class="a-link">
+                                    <i class="fa fa-unlock-alt"></i> 无账户? 注册
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="登录" class="btn btn-primary btn-block" >
+                        </div>
+
+                        <label style="color: red">
+                            [[${msg}]]
+                        </label>
+                    </form>
+
+                    <div class="copy-text">
+                        <p class="m-0">2019-2020 &copy; 北京林业大学</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!--End login Section-->
+
+
+
+
+<!--Begin core plugin -->
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<!-- End core plugin -->
+
+</body>
+
+</html>

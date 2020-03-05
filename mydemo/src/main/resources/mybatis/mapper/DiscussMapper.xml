@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.DiscussMapper">
+    <resultMap id="DiscussMap" type="com.example.demo.entity.Discuss">
+        <id column="discussID" property="discussID" jdbcType="INTEGER"/>
+        <result column="userID" property="userID" jdbcType="INTEGER"/>
+        <result column="resourceID" property="resourceID" jdbcType="INTEGER"/>
+        <result column="discussContent" property="discussContent" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <insert id="insertDiscuss" parameterType="discuss" useGeneratedKeys="true" keyProperty="discussID">
+        insert into discuss(userID,resourceID,discussContent)
+        values(#{userID,jdbcType=INTEGER},#{resourceID,jdbcType=INTEGER},#{discussContent,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="searchDiscussByResourceID" parameterType="java.lang.Integer" resultMap="DiscussMap">
+        select * from discuss
+        where resourceID=#{resourceID,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteDiscussByResourceID" parameterType="java.lang.Integer">
+        delete from discuss
+        where resourceID=#{resourceID,jdbcType=INTEGER}
+    </delete>
+
+    <delete id="deleteDiscussByUserID" parameterType="java.lang.Integer">
+        delete from discuss
+        where userID=#{userID,jdbcType=INTEGER}
+    </delete>
+
+    <delete id="deleteDiscussByID" parameterType="java.lang.Integer">
+        delete from discuss
+        where discussID=#{discussID,jdbcType=INTEGER}
+    </delete>
+
+
+
+
+</mapper>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>研究资源共享平台</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js"></script>
+    <style>
+        /*对layui中的样式进行重写*/
+        .layui-tab-content {
+            padding: 0;/*layui-tab-content:默认有padding: 10px;的值，因为iframe的绝对定位脱离文档流，所以会存在20px的空白空间*/
+        }
+        .show-frame {
+            top: 50px!important;
+            /*默认.layui-layout-admin .layui-body {
+                top: 60px;
+                bottom: 44px;
+            }*/
+            overflow: hidden;/*消除浏览器最右边的滚动条*/
+        }
+        .frame {
+            position: absolute;
+            padding: 10px;/*与layui-footer隔开一段距离*/
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin" th:fragment="footerBar">
+    <div class="layui-footer">
+        1916268924@qq.com - 北京林业大学 - 信息学院 - zzw
+    </div>
+
+
+</div>
+<script src="../layui/layui.js"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function(){
+        var element = layui.element;
+        var $ = layui.$;
+        $("[name=t1]").click(function () {
+            var id = $(this).attr("id");
+            var content = $(this).attr("content");
+            if($("li[lay-id="+id+"]").length===0){
+                element.tabAdd("empTab",{
+                    title:$(this).attr("title"),
+                    content:"<iframe src='"+content+"' class='frame' frameborder='0'></iframe>",
+                    id:id
+                })
+            }
+            element.tabChange('empTab',id)
+        })
+
+    });
+</script>
+</body>
+</body>
+</html>

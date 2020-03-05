@@ -1,0 +1,11 @@
+##连接mysql数据库
+spring:
+  datasource:
+    username: root
+    password: newroot
+    url: jdbc:mysql://localhost:3306/javaweb?useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+##整合mybatis
+mybatis:
+  config-location: classpath:mybatis/SqlMapConfig.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml

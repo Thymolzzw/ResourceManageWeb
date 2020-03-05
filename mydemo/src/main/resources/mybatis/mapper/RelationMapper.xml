@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.RelationMapper">
+    <resultMap id="RelationMap" type="com.example.demo.entity.Relation">
+        <id column="resourceIDOne" property="resourceIDOne" jdbcType="INTEGER"/>
+        <id column="resourceIDTwo" property="resourceIDTwo" jdbcType="INTEGER"/>
+    </resultMap>
+    <insert id="insertRelation" parameterType="relation">
+        insert into relation(resourceIDOne,resourceIDTwo)
+        values(#{resourceIDOne,jdbcType=INTEGER},#{resourceIDTwo,jdbcType=INTEGER})
+    </insert>
+
+    <select id="searchRelationByOne" parameterType="relation" resultMap="RelationMap">
+        select * from relation
+        where resourceIDOne=#{resourceIDOne,jdbcType=INTEGER}
+    </select>
+
+    <select id="searchRelationByTwo" parameterType="relation" resultMap="RelationMap">
+        select * from relation
+        where resourceIDTwo=#{resourceIDTwo,jdbcType=INTEGER}
+    </select>
+
+    <select id="searchRelationByOneAndTwo" parameterType="relation" resultMap="RelationMap">
+        select * from relation
+        where resourceIDOne=#{resourceIDOne,jdbcType=INTEGER} and resourceIDTwo=#{resourceIDTwo,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteRelationByResourceID" parameterType="java.lang.Integer">
+        delete from relation
+        where resourceIDOne=#{resourceID,jdbcType=INTEGER} or resourceIDTwo=#{resourceID,jdbcType=INTEGER}
+    </delete>
+
+</mapper>

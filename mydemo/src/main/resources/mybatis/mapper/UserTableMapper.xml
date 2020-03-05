@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.UserTableMapper">
+    <resultMap id="UserTableMap" type="com.example.demo.entity.UserTable">
+        <id column="userID" property="userID" jdbcType="INTEGER"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="userName" property="userName" jdbcType="VARCHAR"/>
+        <result column="userType" property="userType" jdbcType="INTEGER"/>
+        <result column="gender" property="gender" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+    </resultMap>
+    <insert id="insertUserTable" parameterType="userTable" useGeneratedKeys="true" keyProperty="userID">
+        insert into userTable(password,userName,userType,gender,email,phone)
+        values(#{password,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{userType,jdbcType=INTEGER},#{gender,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteUserTableByUserName" parameterType="java.lang.String">
+        delete from userTable
+        where userName=#{userName,jdbcType=VARCHAR}
+    </delete>
+
+    <update id="updateUserTableByUserID" parameterType="userTable">
+        update userTable
+        set userName=#{userName,jdbcType=VARCHAR},
+            password=#{password,jdbcType=VARCHAR},
+            userType=#{userType,jdbcType=INTEGER},
+            gender=#{gender,jdbcType=VARCHAR},
+            email=#{email,jdbcType=VARCHAR},
+            phone=#{phone,jdbcType=VARCHAR}
+        where userID=#{userID,jdbcType=INTEGER}
+    </update>
+
+
+
+    <select id="searchUserTableByUserType" parameterType="java.lang.Integer" resultMap="UserTableMap">
+        select * from userTable
+        where userType=#{userType,jdbcType=INTEGER}
+    </select>
+
+    <select id="searchUserTableByUserNameAndPasswordAndUserType" resultMap="UserTableMap">
+        select * from userTable
+        where userName=#{userName,jdbcType=VARCHAR} and password=#{password,jdbcType=VARCHAR} and userType=#{userType,jdbcType=INTEGER}
+    </select>
+
+    <select id="searchUserTableByUserID" parameterType="java.lang.Integer" resultMap="UserTableMap">
+        select * from userTable
+        where userID=#{userID,jdbcType=INTEGER}
+    </select>
+
+    <select id="searchUserTableByUserName" parameterType="java.lang.String" resultMap="UserTableMap">
+        select * from userTable
+        where userName=#{userName,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

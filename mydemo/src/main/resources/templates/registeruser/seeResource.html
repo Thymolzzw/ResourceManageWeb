@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>研究资源共享平台</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js"></script>
+    <style>
+        /*对layui中的样式进行重写*/
+        .layui-tab-content {
+            padding: 0;/*layui-tab-content:默认有padding: 10px;的值，因为iframe的绝对定位脱离文档流，所以会存在20px的空白空间*/
+        }
+        .show-frame {
+            top: 50px!important;
+            /*默认.layui-layout-admin .layui-body {
+                top: 60px;
+                bottom: 44px;
+            }*/
+            overflow: hidden;/*消除浏览器最右边的滚动条*/
+        }
+        .frame {
+            position: absolute;
+            padding: 10px;/*与layui-footer隔开一段距离*/
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+
+    <div th:replace="/common/header :: headerBar"></div>
+    <div th:replace="/common/lefter :: lefterBar"></div>
+
+    <div class="layui-body show-frame">
+        <div class="layui-tab layui-tab-brief" lay-allowClose="true" lay-filter="empTab">
+            <br>
+            <ul class="layui-tab-title">
+                <li class="layui-this "><i class="layui-icon">资源信息</i></li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+
+                    <form class="layui-form" action="/uploadDiscuss">
+                        <br>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">文件ID:</label>
+                            <div class="layui-input-inline">
+                                <label>
+                                    <input name="resourceID" style="border: none; outline: none" type="text" autocomplete="off" class="layui-input" readonly th:value="${resource.resourceID}">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">文件名:</label>
+                            <div class="layui-input-inline">
+                                <label>
+                                    <input style="border: none; outline: none" type="text" autocomplete="off" class="layui-input" readonly th:value="${resource.resourceName}">
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">文件类型:</label>
+                            <div class="layui-input-inline">
+                                <label>
+                                    <input style="border: none; outline: none" type="text" autocomplete="off" class="layui-input" readonly th:value="${resource.resourceType==1?'论文':(resource.resourceType==2?'代码':'数据集')}">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">领域:</label>
+                            <div class="layui-input-block">
+                                <label>
+                                    <input style="border: none; outline: none" type="text" autocomplete="off" class="layui-input" readonly th:value="${territoryList}">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">上传时间:</label>
+                            <div class="layui-input-inline">
+                                <label>
+                                    <input style="border: none; outline: none" type="text" autocomplete="off" class="layui-input" readonly th:value="${resource.uploadTime}">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">上传者:</label>
+                            <div class="layui-input-inline">
+                                <label>
+                                    <input style="border: none; outline: none" type="text" autocomplete="off" class="layui-input" readonly th:value="${uploadUser.userName}">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">文件介绍:</label>
+                            <div class="layui-input-block">
+                                <div  style="height: 50px;width: auto;overflow: auto">
+                                    [[${resource.introduction}]]
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">评论列表</label>
+                            <div class="layui-input-block">
+                                <div style="height: 200px;width:auto;overflow: auto;">
+                                    <table id="demo" lay-filter="test" class="layui-table">
+                                        <thead>
+                                        <tr>
+                                            <th lay-data="{field:'content', width:80}">评论内容</th>
+                                            <th lay-data="{field:'user', width:80}">用户</th>
+                                            <th lay-data="{field:'user', width:80}">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <label class="layui-form-label"></label>
+                                        <tr th:each="discuss:${discussList}">
+                                            <td>[[${discuss.discussContent}]]</td>
+                                            <td>[[${discuss.userName}]]</td>
+                                            <td>
+                                                <a th:if="${discuss.userName == session.user.userName}" class="btn btn-sm btn-danger" th:href="@{/deleteDiscuss/}+${discuss.discussID}+@{/}+${resource.resourceID}"><h5 style="color: #5FB878">删除</h5></a>
+                                                <a th:if="${discuss.userName != session.user.userName}" class="btn btn-sm btn-danger"><h5 style="color: #eb8757">删除</h5></a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+
+
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">添加评论</label>
+                            <div class="layui-input-block">
+                                <textarea placeholder="请输入评价内容" required class="layui-textarea" name="mydiscuss"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <!--                                <input type="submit" value="提交">-->
+                                <button class="layui-btn" lay-submit>提交评论</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置评论</button>
+                                <button type="button" class="layui-btn layui-btn-warm"><a class="btn btn-sm btn-danger" th:href="@{/downloadResource/}+${resource.resourceID}">下载</a></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="/common/footer :: footerBar"></div>
+</div>
+<script src="../layui/layui.js"></script>
+
+
+<script>
+    //JavaScript代码区域
+    layui.use('element', function(){
+        var element = layui.element;
+        var $ = layui.$;
+        $("[name=t1]").click(function () {
+            var id = $(this).attr("id");
+            var content = $(this).attr("content");
+            if($("li[lay-id="+id+"]").length===0){
+                element.tabAdd("empTab",{
+                    title:$(this).attr("title"),
+                    content:"<iframe src='"+content+"' class='frame' frameborder='0'></iframe>",
+                    id:id
+                })
+            }
+            element.tabChange('empTab',id)
+        })
+
+    });
+</script>
+
+</body>
+</html>

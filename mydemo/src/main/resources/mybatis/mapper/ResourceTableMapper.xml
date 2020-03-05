@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.ResourceTableMapper">
+    <resultMap id="ResourceMap" type="com.example.demo.entity.ResourceTable">
+        <id column="resourceID" property="resourceID" jdbcType="INTEGER"/>
+        <result column="resourceName" property="resourceName" jdbcType="VARCHAR"/>
+        <result column="resourceType" property="resourceType" jdbcType="INTEGER"/>
+        <result column="resourceLocation" property="resourceLocation" jdbcType="VARCHAR"/>
+        <result column="visitVolume" property="visitVolume" jdbcType="INTEGER"/>
+        <result column="uploadTime" property="uploadTime" jdbcType="TIMESTAMP"/>
+        <result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+        <result column="userID" property="userID" jdbcType="INTEGER"/>
+    </resultMap>
+    <insert id="insertResource" parameterType="resourceTable" useGeneratedKeys="true" keyProperty="resourceID">
+        insert into resourcetable(resourceName,resourceType,resourceLocation,visitVolume,uploadTime,introduction,userID)
+        values(#{resourceName,jdbcType=VARCHAR},#{resourceType,jdbcType=INTEGER},#{resourceLocation,jdbcType=VARCHAR},#{visitVolume,jdbcType=INTEGER},#{uploadTime,jdbcType=TIMESTAMP},#{introduction,jdbcType=VARCHAR},#{userID,jdbcType=INTEGER})
+    </insert>
+
+    <select id="searchResourceByID" parameterType="java.lang.Integer" resultMap="ResourceMap">
+        select * from resourcetable
+        where resourceID=#{resourceID,jdbcType=INTEGER}
+    </select>
+
+    <select id="searchResourceByName" parameterType="java.lang.String" resultMap="ResourceMap">
+        select * from resourcetable
+        where resourceName=#{resourceName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="searchResourceByType" parameterType="java.lang.Integer" resultMap="ResourceMap">
+        select * from resourcetable
+        where resourceType=#{resourceType,jdbcType=INTEGER}
+    </select>
+
+    <select id="searchResourceByUserID" parameterType="java.lang.Integer" resultMap="ResourceMap">
+        select * from resourcetable
+        where userID=#{userID,jdbcType=INTEGER}
+    </select>
+
+    <select id="resourceList" resultMap="ResourceMap">
+        select * from resourcetable limit ${pagenum},${pagesize}
+    </select>
+
+    <update id="updateResource" parameterType="resourceTable">
+        update resourcetable
+        set resourceName=#{resourceName,jdbcType=VARCHAR},resourceType=#{resourceType,jdbcType=INTEGER},resourceLocation=#{resourceLocation,jdbcType=VARCHAR},uploadTime=#{uploadTime,jdbcType=TIMESTAMP},introduction=#{introduction,jdbcType=VARCHAR},userID=#{userID,jdbcType=INTEGER}
+        where resourceID=#{resourceID,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteResourceByID" parameterType="java.lang.Integer">
+        delete from resourcetable
+        where resourceID=#{resourceID,jdbcType=INTEGER}
+    </delete>
+
+</mapper>

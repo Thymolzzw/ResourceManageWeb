@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!--驼峰命名法-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <!-- 将实体中的所有类配置别名,引用实体类时可以使用实体类的别名来代替实体类 -->
+    <typeAliases>
+        <package name="com.example.demo.entity" />
+    </typeAliases>
+    <!-- 将所有mapper映射文件引入 -->
+    <mappers>
+        <package name="com.example.demo.mapper" />
+    </mappers>
+
+</configuration>
